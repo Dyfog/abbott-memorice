@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Timer } from 'lucide-react';
 import { soundManager } from '../utils/audio';
+import { useCountdownProgress } from '../hooks/useCountdownProgress';
 
 interface GameOverScreenProps {
   onHome: () => void;
@@ -11,40 +12,15 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
   onHome,
   autoResetSeconds,
 }) => {
-  const [secondsLeft, setSecondsLeft] = useState(autoResetSeconds);
-
-  // Auto return to home countdown
-  useEffect(() => {
-    if (autoResetSeconds <= 0) return;
-
-    if (secondsLeft <= 0) {
-      onHome();
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          onHome();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [secondsLeft, autoResetSeconds, onHome]);
+  const { progress, secondsLeft } = useCountdownProgress(
+    autoResetSeconds,
+    onHome
+  );
 
   const handleGoHome = () => {
     soundManager.playClick();
     onHome();
   };
-
-  const progressPercentage =
-    autoResetSeconds > 0
-      ? ((autoResetSeconds - secondsLeft) / autoResetSeconds) * 100
-      : 0;
 
   return (
     <div
@@ -80,8 +56,8 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
           {/* Animated Progress Bar */}
           <div className="w-full max-w-[340px] h-2 bg-white/10 rounded-full overflow-hidden border border-white/10">
             <div
-              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] transition-all duration-1000 ease-linear rounded-full shadow-[0_0_8px_#E5B25D]"
-              style={{ width: `${progressPercentage}%` }}
+              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] rounded-full shadow-[0_0_8px_#E5B25D]"
+              style={{ width: `${progress}%` }}
             />
           </div>
         </div>

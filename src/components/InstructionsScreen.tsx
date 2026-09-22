@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Timer, ArrowRight, Sparkles } from 'lucide-react';
 import { GameSettings } from '../types';
 import { soundManager } from '../utils/audio';
+import { useCountdownProgress } from '../hooks/useCountdownProgress';
 
 interface InstructionsScreenProps {
   settings: GameSettings;
@@ -12,36 +13,15 @@ export const InstructionsScreen: React.FC<InstructionsScreenProps> = ({
   settings,
   onStartGame,
 }) => {
-  const [secondsLeft, setSecondsLeft] = useState(settings.instructionsSeconds);
-
-  // Auto start countdown
-  useEffect(() => {
-    if (secondsLeft <= 0) {
-      onStartGame();
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          onStartGame();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [secondsLeft, onStartGame]);
+  const { progress, secondsLeft } = useCountdownProgress(
+    settings.instructionsSeconds,
+    onStartGame
+  );
 
   const handleManualStart = () => {
     soundManager.playClick();
     onStartGame();
   };
-
-  const progressPercentage =
-    ((settings.instructionsSeconds - secondsLeft) / settings.instructionsSeconds) * 100;
 
   return (
     <div className="relative w-full h-full overflow-hidden select-none">
@@ -108,8 +88,8 @@ export const InstructionsScreen: React.FC<InstructionsScreenProps> = ({
           </div>
           <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden border border-white/10">
             <div
-              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] transition-all duration-1000 ease-linear rounded-full shadow-[0_0_8px_#E5B25D]"
-              style={{ width: `${progressPercentage}%` }}
+              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] rounded-full shadow-[0_0_8px_#E5B25D]"
+              style={{ width: `${progress}%` }}
             />
           </div>
 
