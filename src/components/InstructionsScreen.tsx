@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, Sparkles, Layers, Trophy, ArrowRight } from 'lucide-react';
+import { Timer, ArrowRight, Sparkles } from 'lucide-react';
 import { GameSettings } from '../types';
 import { soundManager } from '../utils/audio';
 
@@ -14,7 +14,7 @@ export const InstructionsScreen: React.FC<InstructionsScreenProps> = ({
 }) => {
   const [secondsLeft, setSecondsLeft] = useState(settings.instructionsSeconds);
 
-  // Countdown timer to start game automatically
+  // Auto start countdown
   useEffect(() => {
     if (secondsLeft <= 0) {
       onStartGame();
@@ -53,12 +53,13 @@ export const InstructionsScreen: React.FC<InstructionsScreenProps> = ({
         draggable={false}
       />
 
-      {/* Main Content Area - Positioned safely below the Abbott logo (y > 17%) */}
-      <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[86%] max-w-[620px] bottom-[6%] flex flex-col justify-between items-center z-10">
-        {/* Title Section */}
-        <div className="text-center w-full">
+      {/* Main Content Area - Safely below Abbott logo (y > 18%) */}
+      <div className="absolute top-[19%] left-1/2 -translate-x-1/2 w-[86%] max-w-[580px] bottom-[7%] flex flex-col justify-between items-center z-10 text-center">
+        
+        {/* Title */}
+        <div>
           <h1
-            className="text-[clamp(28px,5.2vw,46px)] font-black tracking-widest uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
+            className="text-[clamp(32px,5.8vw,52px)] font-black tracking-wider uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
             style={{
               background: 'linear-gradient(180deg, #F9E7B9 0%, #E5B25D 60%, #C98F32 100%)',
               WebkitBackgroundClip: 'text',
@@ -67,87 +68,41 @@ export const InstructionsScreen: React.FC<InstructionsScreenProps> = ({
           >
             CÓMO JUGAR
           </h1>
-          <p className="mt-1 text-[clamp(11px,1.8vw,16px)] font-bold tracking-widest text-[#00A3E0] uppercase">
-            Encuentra las 8 parejas idénticas
-          </p>
+          <div className="mt-2 mx-auto w-24 h-1 rounded-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D]" />
         </div>
 
-        {/* PROMINENT CONFIG TIMER HIGHLIGHT CARD */}
-        <div className="w-full p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#001736]/90 via-[#002654]/85 to-[#001736]/90 border border-[#E5B25D]/60 backdrop-blur-md shadow-[0_0_30px_rgba(229,178,93,0.25)] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#D49D42] to-[#F3D88C] flex items-center justify-center shadow-lg shadow-[#D49D42]/40 shrink-0">
-              <Timer className="w-8 h-8 text-[#001736] animate-pulse" />
-            </div>
-            <div>
-              <div className="text-[clamp(10px,1.5vw,13px)] font-bold text-white/70 uppercase tracking-widest">
-                Tiempo límite configurado
-              </div>
-              <div className="text-[clamp(20px,3.8vw,32px)] font-black text-[#F3D88C] tracking-wide">
-                {settings.timerSeconds} SEGUNDOS
-              </div>
-            </div>
+        {/* Central Simple & Punchy Instruction Card */}
+        <div className="w-full p-7 sm:p-9 rounded-3xl bg-gradient-to-b from-[#001736]/90 via-[#00224d]/80 to-[#001736]/90 border border-[#E5B25D]/60 backdrop-blur-md shadow-[0_0_40px_rgba(229,178,93,0.25)] flex flex-col items-center gap-6">
+          
+          {/* Subtle icon badge */}
+          <div className="w-16 h-16 rounded-2xl bg-[#00A3E0]/20 border border-[#00A3E0]/50 flex items-center justify-center shadow-lg shadow-[#00A3E0]/20">
+            <Sparkles className="w-8 h-8 text-[#00A3E0]" />
           </div>
-          <div className="text-right">
-            <span className="inline-block px-3.5 py-1.5 rounded-full bg-[#00A3E0]/20 border border-[#00A3E0]/50 text-[#00A3E0] text-[clamp(10px,1.4vw,12px)] font-bold uppercase tracking-wider shadow-sm">
-              8 PAREJAS
+
+          {/* Big, direct, easy-to-read instruction */}
+          <p className="text-[clamp(22px,4vw,34px)] font-extrabold text-white leading-snug tracking-wide">
+            Voltea las tarjetas para <span className="text-[#F3D88C]">emparejarlas</span> y <span className="text-[#00A3E0]">ganar</span>.
+          </p>
+
+          <p className="text-[clamp(14px,2.2vw,18px)] text-white/80 font-medium max-w-[420px]">
+            Encuentra las 8 parejas idénticas de productos Abbott antes de que termine el tiempo.
+          </p>
+
+          {/* Configured Time Pill inside card */}
+          <div className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-black/40 border border-[#E5B25D]/50 flex items-center justify-center gap-3.5 shadow-inner">
+            <Timer className="w-6 h-6 text-[#E5B25D] animate-pulse shrink-0" />
+            <span className="text-[clamp(16px,2.6vw,22px)] font-black text-[#F3D88C] tracking-wider uppercase">
+              TIEMPO: {settings.timerSeconds} SEGUNDOS
             </span>
           </div>
         </div>
 
-        {/* 3 Step Instruction Cards */}
-        <div className="w-full space-y-3 sm:space-y-4">
-          {/* Step 1 */}
-          <div className="p-4 rounded-xl bg-[#001026]/75 border border-white/15 backdrop-blur-md flex items-center gap-4 shadow-lg hover:border-[#00A3E0]/50 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-[#00A3E0]/20 border border-[#00A3E0]/50 flex items-center justify-center shrink-0">
-              <Layers className="w-6 h-6 text-[#00A3E0]" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-[clamp(14px,2.2vw,18px)] text-white">
-                1. Toca y voltea 2 cartas
-              </h3>
-              <p className="text-[clamp(11px,1.6vw,14px)] text-white/75 mt-0.5 leading-snug">
-                Selecciona cualquier carta del tablero para descubrir los productos Abbott.
-              </p>
-            </div>
-          </div>
-
-          {/* Step 2 */}
-          <div className="p-4 rounded-xl bg-[#001026]/75 border border-white/15 backdrop-blur-md flex items-center gap-4 shadow-lg hover:border-[#E5B25D]/50 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-[#E5B25D]/20 border border-[#E5B25D]/50 flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6 text-[#E5B25D]" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-[clamp(14px,2.2vw,18px)] text-white">
-                2. Encuentra las parejas
-              </h3>
-              <p className="text-[clamp(11px,1.6vw,14px)] text-white/75 mt-0.5 leading-snug">
-                Memoriza las posiciones y empareja las cartas idénticas de PediaSure, Glucerna y Ensure.
-              </p>
-            </div>
-          </div>
-
-          {/* Step 3 */}
-          <div className="p-4 rounded-xl bg-[#001026]/75 border border-white/15 backdrop-blur-md flex items-center gap-4 shadow-lg hover:border-emerald-400/50 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center shrink-0">
-              <Trophy className="w-6 h-6 text-emerald-400" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-[clamp(14px,2.2vw,18px)] text-white">
-                3. ¡Completa el tablero!
-              </h3>
-              <p className="text-[clamp(11px,1.6vw,14px)] text-white/75 mt-0.5 leading-snug">
-                Descubre las 8 parejas antes de que termine el tiempo para ganar.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Action & Countdown Section */}
-        <div className="w-full flex flex-col items-center gap-3">
+        {/* Countdown & Action Button Area */}
+        <div className="w-full flex flex-col items-center gap-3.5">
           {/* Automatic Countdown bar */}
-          <div className="w-full flex items-center justify-between text-[clamp(11px,1.5vw,14px)] text-white/70 tracking-wider">
-            <span>Iniciando juego automáticamente...</span>
-            <span className="font-mono font-bold text-[#F3D88C] text-sm">
+          <div className="w-full flex items-center justify-between text-[clamp(12px,1.6vw,15px)] text-white/70 tracking-wider">
+            <span>Iniciando juego...</span>
+            <span className="font-mono font-bold text-[#F3D88C] text-base">
               {secondsLeft}s
             </span>
           </div>
