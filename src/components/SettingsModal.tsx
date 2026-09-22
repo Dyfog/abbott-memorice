@@ -1,6 +1,6 @@
 import React from 'react';
 import { GameSettings } from '../types';
-import { X, Volume2, VolumeX, Clock, RotateCcw, Maximize, Minimize } from 'lucide-react';
+import { X, Volume2, VolumeX, Clock, RotateCcw, Maximize, Minimize, HelpCircle } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -29,6 +29,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     { label: '120 seg', value: 120 },
   ];
 
+  const instructionsDelayOptions = [
+    { label: '3 seg', value: 3 },
+    { label: '5 seg (Estándar)', value: 5 },
+    { label: '7 seg', value: 7 },
+    { label: '10 seg', value: 10 },
+  ];
+
   const resetDelayOptions = [
     { label: '5 seg', value: 5 },
     { label: '7 seg (Estándar)', value: 7 },
@@ -55,7 +62,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="mt-5 space-y-6">
+        <div className="mt-5 space-y-5">
           {/* Sound Toggle */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -103,7 +110,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </button>
           </div>
 
-          {/* Timer limit */}
+          {/* Game Timer limit */}
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-5 h-5 text-[#E5B25D]" />
@@ -128,10 +135,38 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
 
+          {/* Instructions screen duration */}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <HelpCircle className="w-5 h-5 text-[#00A3E0]" />
+              <label className="font-medium text-sm">Duración pantalla instrucciones</label>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {instructionsDelayOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() =>
+                    onSaveSettings({
+                      ...settings,
+                      instructionsSeconds: opt.value,
+                    })
+                  }
+                  className={`px-3 py-2 text-xs font-medium rounded-lg border transition-all ${
+                    settings.instructionsSeconds === opt.value
+                      ? 'bg-[#00A3E0]/20 border-[#00A3E0] text-cyan-300 shadow-[0_0_10px_rgba(0,163,224,0.3)]'
+                      : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Auto reset delay on win screen */}
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <RotateCcw className="w-5 h-5 text-[#00A3E0]" />
+              <RotateCcw className="w-5 h-5 text-[#E5B25D]" />
               <label className="font-medium text-sm">
                 Reinicio automático tras ganar
               </label>
@@ -148,7 +183,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   }
                   className={`px-3 py-2 text-xs font-medium rounded-lg border transition-all ${
                     settings.winAutoResetSeconds === opt.value
-                      ? 'bg-[#00A3E0]/20 border-[#00A3E0] text-cyan-300 shadow-[0_0_10px_rgba(0,163,224,0.3)]'
+                      ? 'bg-[#E5B25D]/20 border-[#E5B25D] text-[#F3D88C] shadow-[0_0_10px_rgba(229,178,93,0.3)]'
                       : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
                   }`}
                 >
@@ -160,7 +195,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="mt-8 pt-4 border-t border-white/10 flex justify-end">
+        <div className="mt-7 pt-4 border-t border-white/10 flex justify-end">
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#D49D42] to-[#B87B24] text-white font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition-all"

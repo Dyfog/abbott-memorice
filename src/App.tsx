@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMemoriceGame } from './hooks/useMemoriceGame';
 import { HomeScreen } from './components/HomeScreen';
+import { InstructionsScreen } from './components/InstructionsScreen';
 import { BoardScreen } from './components/BoardScreen';
 import { WinScreen } from './components/WinScreen';
 import { GameOverScreen } from './components/GameOverScreen';
@@ -16,6 +17,7 @@ export const App: React.FC = () => {
     timeRemaining,
     settings,
     setSettings,
+    goToInstructions,
     startGame,
     goToHome,
     handleCardClick,
@@ -47,7 +49,6 @@ export const App: React.FC = () => {
       img.src = src;
     });
 
-    // Listen for fullscreen changes
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
@@ -91,7 +92,14 @@ export const App: React.FC = () => {
         />
 
         {/* Current Active Screen */}
-        {screen === 'HOME' && <HomeScreen onStart={startGame} />}
+        {screen === 'HOME' && <HomeScreen onStart={goToInstructions} />}
+
+        {screen === 'INSTRUCTIONS' && (
+          <InstructionsScreen
+            settings={settings}
+            onStartGame={startGame}
+          />
+        )}
 
         {screen === 'PLAYING' && (
           <BoardScreen

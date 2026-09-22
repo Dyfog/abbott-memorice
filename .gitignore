@@ -26,3 +26,5 @@ dist-ssr
 # Temporary files
 test_*.png
 screenshot_*.png
+
+.vercel

@@ -15,11 +15,9 @@ const CARD_DEFINITIONS: { type: CardType; label: string }[] = [
 ];
 
 function generateShuffledDeck(): CardItem[] {
-  // 8 distinct pairs = 16 cards total
   const deck: CardItem[] = [];
 
   CARD_DEFINITIONS.forEach((def, typeIdx) => {
-    // 2 cards for each definition (identical pair)
     for (let copy = 1; copy <= 2; copy++) {
       deck.push({
         id: `card-${typeIdx}-${copy}-${Math.random().toString(36).substring(2, 7)}`,
@@ -54,6 +52,7 @@ export function useMemoriceGame() {
     timerSeconds: 60,
     soundEnabled: true,
     winAutoResetSeconds: 7,
+    instructionsSeconds: 5,
     showTimerHud: true,
   });
 
@@ -100,7 +99,14 @@ export function useMemoriceGame() {
     })();
   }, []);
 
-  // Start new game
+  // Transition from HOME to INSTRUCTIONS view
+  const goToInstructions = useCallback(() => {
+    clearAutoResetTimeout();
+    soundManager.playClick();
+    setScreen('INSTRUCTIONS');
+  }, [clearAutoResetTimeout]);
+
+  // Start actual board game
   const startGame = useCallback(() => {
     clearAutoResetTimeout();
     soundManager.playClick();
@@ -156,7 +162,6 @@ export function useMemoriceGame() {
 
       soundManager.playFlip();
 
-      // Flip the clicked card
       const updatedCards = cards.map((c) =>
         c.id === card.id ? { ...c, isFlipped: true } : c
       );
@@ -165,14 +170,11 @@ export function useMemoriceGame() {
       const newSelected = [...selectedCards, card];
       setSelectedCards(newSelected);
 
-      // If this is the second card flipped:
       if (newSelected.length === 2) {
         setIsLocked(true);
         const [cardA, cardB] = newSelected;
 
-        // Check if types match (identical card pair)
         if (cardA.type === cardB.type) {
-          // Success match!
           setTimeout(() => {
             soundManager.playMatch();
             setCards((prev) =>
@@ -188,14 +190,12 @@ export function useMemoriceGame() {
             setMatchedPairs((prevCount) => {
               const newCount = prevCount + 1;
               if (newCount === 8) {
-                // Victory!
                 setIsTimerRunning(false);
                 setTimeout(() => {
                   soundManager.playWin();
                   fireVictoryConfetti();
                   setScreen('WIN');
 
-                  // Auto reset to home after configured seconds
                   if (settings.winAutoResetSeconds > 0) {
                     autoResetTimeoutRef.current = window.setTimeout(() => {
                       setScreen('HOME');
@@ -207,7 +207,6 @@ export function useMemoriceGame() {
             });
           }, 350);
         } else {
-          // Mismatch: wait and flip back
           setTimeout(() => {
             soundManager.playMismatch();
             setCards((prev) =>
@@ -233,6 +232,7 @@ export function useMemoriceGame() {
     timeRemaining,
     settings,
     setSettings,
+    goToInstructions,
     startGame,
     goToHome,
     handleCardClick,

@@ -42,7 +42,8 @@ Aplicación web interactiva desarrollada para Abbott, diseñada como una réplic
 
 ```mermaid
 flowchart TD
-    A["Pantalla 1: INICIO (Home)<br/>Portada con botón JUGAR"] -->|"Clic en JUGAR"| B["Pantalla 2: TABLERO DE JUEGO<br/>16 cartas boca abajo + Temporizador"]
+    A["Pantalla 1: INICIO (Home)<br/>Portada con botón JUGAR"] -->|"Clic en JUGAR"| I["Pantalla Intermedia: INSTRUCCIONES<br/>Cómo jugar + Tiempo configurado + Cuenta regresiva"]
+    I -->|"Fin de cuenta regresiva (ej. 5s) o clic en '¡EMPEZAR AHORA!'"| B["Pantalla 2: TABLERO DE JUEGO<br/>16 cartas boca abajo + Temporizador"]
     B -->|"Completar los 8 pares antes de tiempo"| C["Pantalla 4: ¡FELICIDADES!<br/>Victoria con confeti y fanfarria"]
     B -->|"Se agota el tiempo (00:00)"| D["Pantalla 5: INTÉNTALO DE NUEVO<br/>Derrota con botón JUGAR"]
     C -->|"Espera de 7s o toque en pantalla"| A
@@ -52,15 +53,20 @@ flowchart TD
 1. **Pantalla de Inicio (`HomeScreen`)**:
    * Réplica idéntica de `ABBOTT-MEMORICE-STAND-1.png`.
    * Logotipo de Abbott, título "MEMORICE", eslogan corporativo y botón táctil interactivo "JUGAR".
-2. **Tablero de Juego (`BoardScreen`)**:
+2. **Pantalla de Instrucciones (`InstructionsScreen`)**:
+   * Aparece inmediatamente tras hacer clic en "JUGAR".
+   * Destaca de forma prominente el **tiempo límite configurado** (ej. 60 segundos).
+   * Explica los 3 pasos clave: 1. Voltear cartas, 2. Encontrar parejas idénticas, 3. Ganar antes de tiempo.
+   * Barra de cuenta regresiva automática para iniciar el juego (configurable en ajustes: 3s, 5s, 7s, 10s) con botón "¡EMPEZAR AHORA!" para saltar de inmediato.
+3. **Tablero de Juego (`BoardScreen`)**:
    * Grilla 4×4 con el reverso dorado corporativo de Abbott.
    * Barra HUD superior discreta: Reloj con cuenta regresiva, contador de parejas (`X / 8`) y botón de reinicio rápido.
-3. **Pantalla de Victoria (`WinScreen`)**:
+4. **Pantalla de Victoria (`WinScreen`)**:
    * Réplica idéntica de `ABBOTT-MEMORICE-STAND-4.png` ("¡FELICIDADES!").
    * Explosión de partículas y confeti dorado y cian (`canvas-confetti`).
    * Fanfarria musical de triunfo.
    * Reinicio automático tras 7 segundos (o tocando la pantalla) para dejar el stand listo para el siguiente participante.
-4. **Pantalla de Fin de Tiempo (`GameOverScreen`)**:
+5. **Pantalla de Fin de Tiempo (`GameOverScreen`)**:
    * Réplica idéntica de `ABBOTT-MEMORICE-STAND-5.png` ("INTÉNTALO DE NUEVO").
    * Botón dorado "JUGAR" para volver a intentarlo de inmediato.
 

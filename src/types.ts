@@ -17,11 +17,12 @@ export interface CardItem {
   isMatched: boolean;
 }
 
-export type GameScreen = 'HOME' | 'PLAYING' | 'WIN' | 'GAMEOVER';
+export type GameScreen = 'HOME' | 'INSTRUCTIONS' | 'PLAYING' | 'WIN' | 'GAMEOVER';
 
 export interface GameSettings {
   timerSeconds: number; // e.g. 60
   soundEnabled: boolean;
-  winAutoResetSeconds: number; // e.g. 6
+  winAutoResetSeconds: number; // e.g. 7
+  instructionsSeconds: number; // e.g. 5
   showTimerHud: boolean;
 }
