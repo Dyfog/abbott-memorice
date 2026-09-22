@@ -40,7 +40,7 @@ export const BoardScreen: React.FC<BoardScreenProps> = ({
 
       {/* Elegant Status HUD below Abbott Logo */}
       {showTimerHud && (
-        <div className="absolute top-[16.5%] left-0 right-0 px-[8%] flex items-center justify-between z-20 pointer-events-auto">
+        <div className="absolute top-[16%] left-0 right-0 px-[8%] flex items-center justify-between z-20 pointer-events-auto">
           {/* Timer Pill */}
           <div
             className={`flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 ${
@@ -50,7 +50,7 @@ export const BoardScreen: React.FC<BoardScreenProps> = ({
             }`}
           >
             <Timer className="w-5 h-5 text-[#E5B25D]" />
-            <span className="font-mono font-bold text-[clamp(14px,2.2vw,22px)] tracking-wider">
+            <span className="font-mono font-bold text-[clamp(14px,2.2cqw,22px)] tracking-wider">
               {formatTime(timeRemaining)}
             </span>
           </div>
@@ -58,7 +58,7 @@ export const BoardScreen: React.FC<BoardScreenProps> = ({
           {/* Matched Pairs Pill */}
           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/35 border border-[#E5B25D]/40 text-[#F3D88C] backdrop-blur-md shadow-[0_0_10px_rgba(229,178,93,0.2)]">
             <Award className="w-5 h-5 text-[#00A3E0]" />
-            <span className="font-semibold text-[clamp(13px,2vw,20px)] tracking-wide">
+            <span className="font-semibold text-[clamp(13px,2cqw,20px)] tracking-wide">
               {matchedPairs} / 8 parejas
             </span>
           </div>
@@ -75,8 +75,8 @@ export const BoardScreen: React.FC<BoardScreenProps> = ({
       )}
 
       {/* 4x4 Grid of 16 Cards */}
-      <div className="absolute top-[22.8%] left-1/2 -translate-x-1/2 w-[86%] max-w-[940px] z-10">
-        <div className="grid grid-cols-4 gap-[clamp(8px,1.6vw,18px)]">
+      <div className="absolute top-[21.5%] left-1/2 -translate-x-1/2 w-[86%] max-w-[880px] z-10">
+        <div className="grid grid-cols-4 gap-[clamp(8px,1.5cqw,16px)]">
           {cards.map((card) => (
             <CardComponent
               key={card.id}

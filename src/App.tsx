@@ -79,7 +79,7 @@ export const App: React.FC = () => {
         or expands to fill 100% on a 1080x1920 kiosk display.
       */}
       <div
-        className="relative w-full h-full max-h-screen aspect-[9/16] max-w-[calc(100vh*(9/16))] bg-black overflow-hidden shadow-[0_0_80px_rgba(0,163,224,0.15)] flex flex-col"
+        className="relative w-full h-full max-h-screen aspect-[9/16] max-w-[calc(100vh*(9/16))] bg-black overflow-hidden shadow-[0_0_80px_rgba(0,163,224,0.15)] flex flex-col [container-type:inline-size]"
         style={{
           boxShadow: '0 0 100px rgba(0, 30, 80, 0.8), 0 0 40px rgba(229, 178, 93, 0.15)',
         }}
