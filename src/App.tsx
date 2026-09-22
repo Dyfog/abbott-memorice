@@ -119,7 +119,13 @@ export const App: React.FC = () => {
           />
         )}
 
-        {screen === 'GAMEOVER' && <GameOverScreen onRetry={startGame} />}
+        {screen === 'GAMEOVER' && (
+          <GameOverScreen
+            onRetry={startGame}
+            onHome={goToHome}
+            autoResetSeconds={settings.gameOverAutoResetSeconds}
+          />
+        )}
 
         {/* Discreet Stand Floating Controls (Top Right) */}
         <div className="absolute top-4 right-4 z-40 flex items-center gap-2 opacity-35 hover:opacity-100 transition-opacity duration-300">

@@ -42,6 +42,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     { label: '10 seg', value: 10 },
   ];
 
+  const gameOverDelayOptions = [
+    { label: '3 seg', value: 3 },
+    { label: '5 seg (Estándar)', value: 5 },
+    { label: '7 seg', value: 7 },
+    { label: '10 seg', value: 10 },
+  ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
       <div className="relative w-full max-w-md bg-[#001736] border border-[#E5B25D]/50 rounded-2xl p-6 shadow-2xl text-white">
@@ -183,6 +190,36 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   }
                   className={`px-3 py-2 text-xs font-medium rounded-lg border transition-all ${
                     settings.winAutoResetSeconds === opt.value
+                      ? 'bg-[#E5B25D]/20 border-[#E5B25D] text-[#F3D88C] shadow-[0_0_10px_rgba(229,178,93,0.3)]'
+                      : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Auto reset delay on game over screen */}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <RotateCcw className="w-5 h-5 text-[#E5B25D]" />
+              <label className="font-medium text-sm">
+                Reinicio a bienvenida tras fallar
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {gameOverDelayOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() =>
+                    onSaveSettings({
+                      ...settings,
+                      gameOverAutoResetSeconds: opt.value,
+                    })
+                  }
+                  className={`px-3 py-2 text-xs font-medium rounded-lg border transition-all ${
+                    settings.gameOverAutoResetSeconds === opt.value
                       ? 'bg-[#E5B25D]/20 border-[#E5B25D] text-[#F3D88C] shadow-[0_0_10px_rgba(229,178,93,0.3)]'
                       : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
                   }`}

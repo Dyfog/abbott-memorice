@@ -53,6 +53,7 @@ export function useMemoriceGame() {
     soundEnabled: true,
     winAutoResetSeconds: 7,
     instructionsSeconds: 5,
+    gameOverAutoResetSeconds: 5,
     showTimerHud: true,
   });
 

@@ -24,5 +24,6 @@ export interface GameSettings {
   soundEnabled: boolean;
   winAutoResetSeconds: number; // e.g. 7
   instructionsSeconds: number; // e.g. 5
+  gameOverAutoResetSeconds: number; // e.g. 5
   showTimerHud: boolean;
 }
