@@ -121,7 +121,6 @@ export const App: React.FC = () => {
 
         {screen === 'GAMEOVER' && (
           <GameOverScreen
-            onRetry={startGame}
             onHome={goToHome}
             autoResetSeconds={settings.gameOverAutoResetSeconds}
           />

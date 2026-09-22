@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, Home } from 'lucide-react';
+import { Timer } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface GameOverScreenProps {
-  onRetry: () => void;
   onHome: () => void;
   autoResetSeconds: number;
 }
 
 export const GameOverScreen: React.FC<GameOverScreenProps> = ({
-  onRetry,
   onHome,
   autoResetSeconds,
 }) => {
@@ -38,11 +36,6 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
     return () => clearInterval(interval);
   }, [secondsLeft, autoResetSeconds, onHome]);
 
-  const handleRetry = () => {
-    soundManager.playClick();
-    onRetry();
-  };
-
   const handleGoHome = () => {
     soundManager.playClick();
     onHome();
@@ -54,8 +47,12 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
       : 0;
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none">
-      {/* 1:1 Reference Background Graphic (1080x1920) */}
+    <div
+      onClick={handleGoHome}
+      className="relative w-full h-full overflow-hidden select-none cursor-pointer"
+      title="Toca para volver al menú principal"
+    >
+      {/* Clean 1:1 Background Graphic without JUGAR button (1080x1920) */}
       <img
         src="/assets/screens/bg_gameover.png"
         alt="Abbott Inténtalo de nuevo"
@@ -63,50 +60,37 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
         draggable={false}
       />
 
-      {/* Interactive Golden "JUGAR" Button Area (aligned with artwork button) */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-[50.5%] w-[53.5%] max-w-[550px] h-[7.3%] z-20">
-        <button
-          onClick={handleRetry}
-          className="relative w-full h-full rounded-full cursor-pointer transition-transform duration-150 active:scale-95 group focus:outline-none"
-          aria-label="Jugar de nuevo"
-        >
-          {/* Subtle golden shimmer and touch highlight */}
-          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200 bg-white/15 shadow-[0_0_40px_rgba(243,216,140,0.7)]" />
-        </button>
-      </div>
+      {/* Prominent Kiosk Return Timer Badge (centered below INTÉNTALO DE NUEVO) */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-[52%] w-[86%] max-w-[540px] flex flex-col items-center gap-4 z-20 text-center pointer-events-none">
+        {/* Glowing glass timer badge */}
+        <div className="w-full py-6 px-8 rounded-3xl bg-gradient-to-b from-[#001736]/90 via-[#00224d]/80 to-[#001736]/90 border-2 border-[#E5B25D]/60 backdrop-blur-md shadow-[0_0_40px_rgba(229,178,93,0.25)] flex flex-col items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-[#E5B25D]/20 border border-[#E5B25D]/50 flex items-center justify-center shadow-lg shadow-[#E5B25D]/20">
+            <Timer className="w-7 h-7 text-[#E5B25D] animate-pulse" />
+          </div>
 
-      {/* Auto Return Countdown & Return to Home Option (below JUGAR button) */}
-      {autoResetSeconds > 0 && (
-        <div className="absolute left-1/2 -translate-x-1/2 top-[61%] w-[84%] max-w-[460px] flex flex-col items-center gap-2.5 z-20 text-center">
-          {/* Countdown pill */}
-          <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-[#001736]/85 border border-[#E5B25D]/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <Timer className="w-4 h-4 text-[#E5B25D] animate-pulse shrink-0" />
-            <span className="text-[clamp(13px,1.8vw,16px)] font-semibold text-white/90 tracking-wide">
-              Volviendo al inicio en{' '}
-              <strong className="text-[#F3D88C] font-mono text-base font-bold">
-                {secondsLeft}s
-              </strong>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-[clamp(13px,2cqw,18px)] font-bold text-white/70 uppercase tracking-widest">
+              Volviendo al menú principal en
+            </span>
+            <span className="font-mono font-black text-[clamp(36px,5.5cqw,54px)] text-[#F3D88C] tracking-wider drop-shadow-[0_0_12px_rgba(243,216,140,0.5)]">
+              {secondsLeft}s
             </span>
           </div>
 
-          {/* Progress bar */}
-          <div className="w-44 h-1.5 bg-white/10 rounded-full overflow-hidden border border-white/10">
+          {/* Animated Progress Bar */}
+          <div className="w-full max-w-[340px] h-2 bg-white/10 rounded-full overflow-hidden border border-white/10">
             <div
-              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] transition-all duration-1000 ease-linear rounded-full shadow-[0_0_6px_#E5B25D]"
+              className="h-full bg-gradient-to-r from-[#00A3E0] to-[#E5B25D] transition-all duration-1000 ease-linear rounded-full shadow-[0_0_8px_#E5B25D]"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
-
-          {/* Manual immediate Return to Welcome Button */}
-          <button
-            onClick={handleGoHome}
-            className="mt-1 flex items-center gap-2 px-4 py-1.5 rounded-xl text-[clamp(12px,1.5vw,14px)] font-medium text-white/60 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer border border-transparent hover:border-white/20"
-          >
-            <Home className="w-4 h-4 text-[#00A3E0]" />
-            <span>Volver a bienvenida ahora</span>
-          </button>
         </div>
-      )}
+
+        {/* Touch anywhere hint */}
+        <span className="text-[clamp(12px,1.6cqw,16px)] text-white/50 tracking-widest uppercase mt-2 animate-pulse">
+          Toca la pantalla para volver ahora
+        </span>
+      </div>
     </div>
   );
 };
