@@ -18,10 +18,10 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
 
   return (
     <div className="relative w-full h-full overflow-hidden select-none">
-      {/* 1:1 Clean Background Graphic with Abbott Logo and bottom waves (1080x1920) */}
+      {/* Clean 1:1 Background Graphic with Abbott Logo and bottom waves (1080x1920) */}
       <img
         src="/assets/screens/bg_gameover.png"
-        alt="Abbott Se te acabó el tiempo"
+        alt="Abbott ¡Se acabó el tiempo!"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         draggable={false}
       />
@@ -29,19 +29,19 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
       {/* Main Content Area: Title + Timer Card centered vertically */}
       <div className="absolute top-[39%] left-1/2 -translate-x-1/2 w-[88%] max-w-[620px] flex flex-col items-center gap-6 sm:gap-8 z-20 text-center pointer-events-none">
         
-        {/* Title: SE TE ACABÓ EL TIEMPO (with TIEMPO in golden gradient) */}
-        <h1 className="text-[clamp(30px,5cqw,52px)] font-black tracking-wider uppercase leading-tight drop-shadow-[0_4px_18px_rgba(0,0,0,0.85)]">
-          <span className="text-white">SE TE ACABÓ EL </span>
+        {/* Title: ¡SE ACABÓ EL TIEMPO! (with TIEMPO! in golden gradient) */}
+        <h1 className="text-[clamp(32px,5.2cqw,54px)] font-black tracking-wider uppercase leading-tight drop-shadow-[0_4px_18px_rgba(0,0,0,0.85)]">
+          <span className="text-white">¡SE ACABÓ EL </span>
           <span
             className="inline-block"
             style={{
               background: 'linear-gradient(180deg, #F9E7B9 0%, #E5B25D 60%, #C98F32 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 12px rgba(229,178,93,0.5))',
+              filter: 'drop-shadow(0 0 14px rgba(229,178,93,0.55))',
             }}
           >
-            TIEMPO
+            TIEMPO!
           </span>
         </h1>
 
